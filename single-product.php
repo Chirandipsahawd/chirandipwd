@@ -81,6 +81,7 @@ do_action( 'woocommerce_before_single_product_summary' );
 <?php echo do_shortcode( '[woocommerce_social_media_share_buttons]' ); ?>
 
 
+<?php //echo woocommerce_output_product_data_tabs(); ?>
 </div><!-- .summary -->
 </div>
 

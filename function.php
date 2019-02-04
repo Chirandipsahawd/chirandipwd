@@ -275,3 +275,59 @@ register_post_type('gamestone', array(	'label' => 'Gamestones','description' => 
 //register custom taxonomy like gamestone
 register_taxonomy( 'gamestone_category', 'gamestone', array( 'hierarchical' => true, 'label' => 'Gamestone Categories', 'query_var' => true, 'rewrite' => true ) );
 
+
+
+
+/*==================================product count drtopdown========================================================*/
+// Lets create the function to house our form
+
+function woocommerce_catalog_page_ordering() {
+?>
+<?php echo '<span class="itemsorder">Items Per Page:' ?>
+    <form action="" method="POST" name="results" class="woocommerce-ordering">
+    <select name="woocommerce-sort-by-columns" id="woocommerce-sort-by-columns" class="sortby" onchange="this.form.submit()">
+<?php
+ 
+//Get products on page reload
+if  (isset($_POST['woocommerce-sort-by-columns']) && (($_COOKIE['shop_pageResults'] <> $_POST['woocommerce-sort-by-columns']))) {
+        $numberOfProductsPerPage = $_POST['woocommerce-sort-by-columns'];
+          } else {
+        $numberOfProductsPerPage = $_COOKIE['shop_pageResults'];
+          }
+ 
+//  This is where you can change the amounts per page that the user will use  feel free to change the numbers and text as you want, in my case we had 4 products per row so I chose to have multiples of four for the user to select.
+			$shopCatalog_orderby = apply_filters('woocommerce_sortby_page', array(
+			//Add as many of these as you like, -1 shows all products per page
+			  //  ''       => __('Results per page', 'woocommerce'),
+				'10' 		=> __('10', 'woocommerce'),
+				'20' 		=> __('20', 'woocommerce'),
+				'-1' 		=> __('All', 'woocommerce'),
+			));
+
+		foreach ( $shopCatalog_orderby as $sort_id => $sort_name )
+			echo '<option value="' . $sort_id . '" ' . selected( $numberOfProductsPerPage, $sort_id, true ) . ' >' . $sort_name . '</option>';
+?>
+</select>
+</form>
+
+<?php echo ' </span>' ?>
+<?php
+}
+ 
+// now we set our cookie if we need to
+function dl_sort_by_page($count) {
+  if (isset($_COOKIE['shop_pageResults'])) { // if normal page load with cookie
+     $count = $_COOKIE['shop_pageResults'];
+  }
+  if (isset($_POST['woocommerce-sort-by-columns'])) { //if form submitted
+    setcookie('shop_pageResults', $_POST['woocommerce-sort-by-columns'], time()+1209600, '/', 'www.your-domain-goes-here.com', false); //this will fail if any part of page has been output- hope this works!
+    $count = $_POST['woocommerce-sort-by-columns'];
+  }
+  // else normal page load and no cookie
+  return $count;
+}
+ 
+add_filter('loop_shop_per_page','dl_sort_by_page');
+add_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_page_ordering', 20 );
+
+/*=================================================procduct dropdown counter end===============================================*/

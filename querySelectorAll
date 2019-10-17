@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div class="container">
+<div class="row">
+
+                                          
+
+                            
+
+
+<div class="col-sm-3">
+<div class="welcome-slide-box">
+<div class="chckn-img-box">
+<img width="300" height="300" src="http://www.seoajay.com/chicken/wp-content/uploads/2019/10/CMW-43-300x300.jpg" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" ></div>
+<div class="chckn">  <div class="catprod"><a href="http://www.seoajay.com/chicken/product-category/frozen-pork/" rel="tag">FROZEN PORK</a></div>
+                                   
+<div class="chicken-p"><h2 class="woocommerce-loop-product__title">Belly Pork Slices</h2></div>
+<div class="chckn-btn">
+<a href="http://www.seoajay.com/chicken/product/belly-pork-slices/" class="hvr-sweep-to-bottom">INQUIRE NOW</a>
+</div>
+</div>
+ </div>
+</div>
+
+<div class="col-sm-3">
+<div class="welcome-slide-box">
+<div class="chckn-img-box">
+<img width="300" height="300" src="http://www.seoajay.com/chicken/wp-content/uploads/2019/10/CMW-43-300x300.jpg" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" ></div>
+<div class="chckn">  <div class="catprod"><a href="http://www.seoajay.com/chicken/product-category/frozen-pork/" rel="tag">FROZEN MEAT</a></div>
+                                   
+<div class="chicken-p"><h2 class="woocommerce-loop-product__title">Belly Pork Slices</h2></div>
+<div class="chckn-btn">
+<a href="http://www.seoajay.com/chicken/product/belly-pork-slices/" class="hvr-sweep-to-bottom">INQUIRE NOW</a>
+</div>
+</div>
+ </div>
+</div>
+
+<div class="col-sm-3">
+<div class="welcome-slide-box">
+<div class="chckn-img-box">
+<img width="300" height="300" src="http://www.seoajay.com/chicken/wp-content/uploads/2019/10/CMW-43-300x300.jpg" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" ></div>
+<div class="chckn">  <div class="catprod"><a href="http://www.seoajay.com/chicken/product-category/frozen-pork/" rel="tag">FROZEN TURKEY</a></div>
+                                   
+<div class="chicken-p"><h2 class="woocommerce-loop-product__title">Belly Pork Slices</h2></div>
+<div class="chckn-btn">
+<a href="http://www.seoajay.com/chicken/product/belly-pork-slices/" class="hvr-sweep-to-bottom">INQUIRE NOW</a>
+</div>
+</div>
+ </div>
+</div>
+
+<div class="col-sm-3">
+<div class="welcome-slide-box">
+<div class="chckn-img-box">
+<img width="300" height="300" src="http://www.seoajay.com/chicken/wp-content/uploads/2019/10/CMW-43-300x300.jpg" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" ></div>
+<div class="chckn">  <div class="catprod"><a href="http://www.seoajay.com/chicken/product-category/frozen-chicken/" rel="tag">FROZEN CHICKEN</a></div>
+                                   
+<div class="chicken-p"><h2 class="woocommerce-loop-product__title">Belly Pork Slices</h2></div>
+<div class="chckn-btn">
+<a href="http://www.seoajay.com/chicken/product/belly-pork-slices/" class="hvr-sweep-to-bottom">INQUIRE NOW</a>
+</div>
+</div>
+ </div>
+</div>
+<div class="col-sm-3">
+<div class="welcome-slide-box">
+<div class="chckn-img-box">
+<img width="300" height="300" src="http://www.seoajay.com/chicken/wp-content/uploads/2019/10/CMW-43-300x300.jpg" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="" ></div>
+<div class="chckn">  <div class="catprod"><a href="http://www.seoajay.com/chicken/product-category/frozen-pork/" rel="tag">FROZEN DUCK</a></div>
+                                   
+<div class="chicken-p"><h2 class="woocommerce-loop-product__title">Belly Pork Slices</h2></div>
+<div class="chckn-btn">
+<a href="http://www.seoajay.com/chicken/product/belly-pork-slices/" class="hvr-sweep-to-bottom">INQUIRE NOW</a>
+</div>
+</div>
+ </div>
+</div>
+</div>
+
+
+
+              
+</div>
+<script>
+ (function() {
+  var x, i;
+  x = document.querySelectorAll(".catprod");
+  for (i = 0; i < x.length; i++) {
+  var r = x[i].firstChild.innerHTML;
+  alert(r);
+   if (x[i].firstChild.innerHTML === 'FROZEN CHICKEN'){
+	 x[i].firstChild.innerHTML = `<img src="http://www.seoajay.com/chicken/wp-content/themes/mytheme/image/chicken-icon.png" class="img-responsive chicken-icon" alt="">`;
+ 	 }
+ else if (x[i].firstChild.innerHTML === 'FROZEN MEAT'){
+	 x[i].firstChild.innerHTML = `<img src="http://www.seoajay.com/chicken/wp-content/themes/mytheme/image/meat-icon.png" class="img-responsive chicken-icon" alt="">`;
+	 }
+    else if (x[i].firstChild.innerHTML === 'FROZEN DUCK'){
+    
+		 x[i].firstChild.innerHTML = `<img src="http://www.seoajay.com/chicken/wp-content/themes/mytheme/image/duck-icon.png" class="img-responsive chicken-icon" alt="">`;
+	 }else if (x[i].firstChild.innerHTML === 'FROZEN TURKEY'){
+ 		 x[i].firstChild.innerHTML = `<img src="http://www.seoajay.com/chicken/wp-content/themes/mytheme/image/turkey.png" class="img-responsive chicken-icon" alt="">`;
+	 }else if (x[i].firstChild.innerHTML = 'FROZEN PORK'){
+		 x[i].firstChild.innerHTML = `<img src="http://www.seoajay.com/chicken/wp-content/themes/mytheme/image/pork-icon.png" class="img-responsive chicken-icon" alt="">`;
+	 }
+  }
+   
+}
+)();
+</script>
+</body>
+</html> 

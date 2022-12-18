@@ -1,3 +1,67 @@
+function add_extra_woocommerce_shipping_rate_cost( $rates, $method ) {
+    /* let's assume its applicable for flat rate and local pickup
+     * And instance id for flat rate = 12
+     * And instance id for local pickup = 14 
+     * 
+     */
+
+//       $data_store = WC_Data_Store::load( 'shipping-zone' );
+//    $raw_zones = $data_store->get_zones();
+//    foreach ( $raw_zones as $raw_zone ) {
+//       $zones[] = new WC_Shipping_Zone( $raw_zone );
+//    }
+
+//print_r($raw_zones);
+     $product_category_id = array( 16,17 ); // applicable categories
+        $product_category_id_check = false;
+        $items = WC()->cart->get_cart();
+        foreach( $items as $item => $values ) { 
+            $product_cats_ids = wp_get_post_terms($values['data']->get_id(),'product_cat',array('fields'=>'ids'));
+            //print_r($product_cats_ids);
+            foreach ( $product_cats_ids as $id ) {
+                if( in_array( $id, $product_category_id ) ) 
+                    $product_category_id_check = true;
+                    $WC_Shipping_Zone = new WC_Shipping_Zone();
+                    $rates = $WC_Shipping_Zone->set_zone_name( "All" );
+                
+//print_r($WC_Shipping_Zone);
+            // foreach ( $rates as $rate_key => $rate ) {
+            //     // Unset
+            //     unset( $rates[$rate_key] );
+            // }
+            
+            }
+        }
+//      $data_store = WC_Data_Store::load( 'shipping-zone' );
+//    $raw_zones = $data_store->get_zones();
+//    foreach ( $raw_zones as $raw_zone ) {
+//       $zones[] = new WC_Shipping_Zone( $raw_zone );
+//    }
+    // if ( in_array( $zone_id, array( 1) ) && WC()->cart ) {
+    //     // if ( get_field( 'multiplier', 'option' ) ) :
+    //     //     $multiplier = get_field( 'multiplier', 'option' );
+    //     // else :
+    //     //     $multiplier = 1;
+    //     // endif;
+    //     $multiplier = 3;
+
+    //     $product_category_id = array( 16,17 ); // applicable categories
+    //     $product_category_id_check = false;
+    //     $items = WC()->cart->get_cart();
+    //     foreach( $items as $item => $values ) { 
+    //         $product_cats_ids = wp_get_post_terms($values['data']->get_id(),'product_cat',array('fields'=>'ids'));
+    //         foreach ( $product_cats_ids as $id ) {
+    //             if( in_array( $id, $product_category_id ) ) 
+    //                 $product_category_id_check = true;
+    //         }
+    //     }
+    //     if( $product_category_id_check ){
+    //         $cost = $cost * 3;
+    //     }
+    // }
+     return $rates;
+}
+add_filter( 'woocommerce_package_rates', 'add_extra_woocommerce_shipping_rate_cost', 99, 2 );
 
 
 function add_extra_woocommerce_shipping_rate_cost( $rates, $method ) {

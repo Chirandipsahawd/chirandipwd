@@ -1,5 +1,22 @@
 
 
+function add_extra_woocommerce_shipping_rate_cost( $rates, $method ) {
+    $product_category_id = array( 16,17 ); // applicable categories
+       $product_category_id_check = false;
+       $items = WC()->cart->get_cart();
+       foreach( $items as $item => $values ) { 
+           $product_cats_ids = wp_get_post_terms($values['data']->get_id(),'product_cat',array('fields'=>'ids'));
+           print_r($product_cats_ids);
+           foreach ( $product_cats_ids as $id ) {
+               if( in_array( $id, $product_category_id ) ) 
+                   $product_category_id_check = true;
+                   $WC_Shipping_Zone = new WC_Shipping_Zone();
+                   $rates = $WC_Shipping_Zone->set_zone_locations( "All" );
+                }
+            
+            }
+            return $rates;
+        }
 // Breadcrumbs
 function custom_breadcrumbs() {
        

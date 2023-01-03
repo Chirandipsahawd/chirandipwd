@@ -435,3 +435,241 @@ add_action('woocommerce_after_shop_loop_item_title', 'woocommerce_after_shop_loo
 
 
 //I had to use echo $product->get_short_description() instead:
+
+
+
+// Display custom field on single product page
+function d_extra_product_field(){
+    $value = isset( $_POST['extra_product_field'] ) ? sanitize_text_field( $_POST['extra_product_field'] ) : '';
+    printf( '<label>%s</label><input name="extra_product_field" value="%s" />', __( 'Enter your custom text' ), esc_attr( $value ) );
+    $value1 = isset( $_POST['extra_product_field_select'] ) ? sanitize_text_field( $_POST['extra_product_field_select'] ) : '';
+	printf( '<label>%s</label><select name="extra_product_field_select"><option value="">--select</option><option value="legend2">Legend2</option><option value="legend1">Legend1</option></select>', __( 'select your custom text' ), esc_attr( $value ) );
+}
+add_action( 'woocommerce_after_add_to_cart_button', 'd_extra_product_field', 9 );
+
+// validate when add to cart
+function d_extra_field_validation($passed, $product_id, $qty){
+
+    if( isset( $_POST['extra_product_field'] ) && sanitize_text_field( $_POST['extra_product_field'] ) == '' ){
+        $product = wc_get_product( $product_id );
+        wc_add_notice( sprintf( __( '%s cannot be added to the cart until you enter some text.' ), $product->get_title() ), 'error' );
+        return false;
+    }
+    if( isset( $_POST['extra_product_field_select'] ) && sanitize_text_field( $_POST['extra_product_field_select'] ) == '' ){
+        $product = wc_get_product( $product_id );
+        wc_add_notice( sprintf( __( '%s cannot be added to the cart until Selects some text.' ), $product->get_title() ), 'error' );
+        return false;
+    }
+
+    return $passed;
+
+}
+add_filter( 'woocommerce_add_to_cart_validation', 'd_extra_field_validation', 10, 3 );
+
+ // add custom field data in to cart
+function d_add_cart_item_data( $cart_item, $product_id ){
+
+    if( isset( $_POST['extra_product_field'] ) ) {
+        $cart_item['extra_product_field'] = sanitize_text_field( $_POST['extra_product_field'] );
+    }
+    return $cart_item;
+
+}
+add_filter( 'woocommerce_add_cart_item_data', 'd_add_cart_item_data', 10, 2 );
+
+
+ // add custom field data in to cart extra_product_field_select
+ function d_add_cart_item_data_select( $cart_item1, $product_id ){
+
+    if( isset( $_POST['extra_product_field_select'] ) ) {
+        $cart_item1['extra_product_field_select'] = sanitize_text_field( $_POST['extra_product_field_select'] );
+    }
+    return $cart_item1;
+
+}
+add_filter( 'woocommerce_add_cart_item_data', 'd_add_cart_item_data_select', 10, 2 );
+
+
+// load data from session
+function d_get_cart_data_f_session( $cart_item, $values ) {
+
+    if ( isset( $values['extra_product_field'] ) ){
+        $cart_item['extra_product_field'] = $values['extra_product_field'];
+    }
+
+    return $cart_item;
+
+}
+add_filter( 'woocommerce_get_cart_item_from_session', 'd_get_cart_data_f_session', 20, 2 );
+
+
+// load data from session select
+function d_get_cart_data_f_session_select( $cart_item1, $values1 ) {
+
+    if ( isset( $values1['extra_product_field_select'] ) ){
+        $cart_item1['extra_product_field_select'] = $values1['extra_product_field_select'];
+    }
+
+    return $cart_item1;
+
+}
+add_filter( 'woocommerce_get_cart_item_from_session', 'd_get_cart_data_f_session_select', 20, 2 );
+
+
+//add meta to order
+function d_add_order_meta( $item_id, $values ) {
+
+    if ( ! empty( $values['extra_product_field'] ) ) {
+        woocommerce_add_order_item_meta( $item_id, 'extra_product_field', $values['extra_product_field'] );           
+    }
+}
+add_action( 'woocommerce_add_order_item_meta', 'd_add_order_meta', 10, 2 );
+
+
+//add meta to order select
+function d_add_order_meta_select( $item_id, $values1 ) {
+
+    if ( ! empty( $values1['extra_product_field_select'] ) ) {
+        woocommerce_add_order_item_meta( $item_id, 'extra_product_field', $values1['extra_product_field_select'] );           
+    }
+}
+add_action( 'woocommerce_add_order_item_meta', 'd_add_order_meta_select', 10, 2 );
+
+// display data in cart
+function d_get_itemdata( $other_data, $cart_item ) {
+
+    if ( isset( $cart_item['extra_product_field'] ) ){
+
+        $other_data[] = array(
+            'name' => __( 'Your extra field text' ),
+            'value' => sanitize_text_field( $cart_item['extra_product_field'] )
+        );
+
+    }
+
+    return $other_data;
+
+}
+add_filter( 'woocommerce_get_item_data', 'd_get_itemdata', 10, 2 );
+
+
+// display data in cart select
+function d_get_itemdata_select( $other_data1, $cart_item1 ) {
+
+    if ( isset( $cart_item1['extra_product_field_select'] ) ){
+
+        $other_data1[] = array(
+            'name' => __( 'Your extra field text' ),
+            'value' => sanitize_text_field( $cart_item1['extra_product_field_select'] )
+        );
+
+    }
+
+    return $other_data1;
+
+}
+add_filter( 'woocommerce_get_item_data', 'd_get_itemdata_select', 10, 2 );
+
+// display custom field data in order view
+function d_dis_metadata_order( $cart_item, $order_item ){
+
+    if( isset( $order_item['extra_product_field'] ) ){
+        $cart_item_meta['extra_product_field'] = $order_item['extra_product_field'];
+    }
+
+    return $cart_item;
+
+}
+add_filter( 'woocommerce_order_item_product', 'd_dis_metadata_order', 10, 2 );
+
+
+// display custom field data in order view extra_product_field_select
+function d_dis_metadata_order_select( $cart_item1, $order_item1 ){
+
+    if( isset( $order_item1['extra_product_field_select'] ) ){
+        $cart_item_meta1['extra_product_field_select'] = $order_item1['extra_product_field_select'];
+    }
+
+    return $cart_item1;
+
+}
+add_filter( 'woocommerce_order_item_product', 'd_dis_metadata_order_select', 10, 2 );
+
+
+// add field data in email
+function d_order_email_data( $fields ) { 
+    $fields['extra_product_field'] = __( 'Your extra field text' ); 
+    return $fields; 
+} 
+add_filter('woocommerce_email_order_meta_fields', 'd_order_email_data');
+
+
+// add field data in email select
+function d_order_email_data_select( $fields ) { 
+    $fields['extra_product_field_select'] = __( 'Your extra field text' ); 
+    return $fields; 
+} 
+add_filter('woocommerce_email_order_meta_fields', 'd_order_email_data_select');
+
+// again order
+function d_order_again_meta_data( $cart_item, $order_item, $order ){
+
+    if( isset( $order_item['extra_product_field'] ) ){
+        $cart_item_meta['extra_product_field'] = $order_item['extra_product_field'];
+    }
+
+    return $cart_item;
+
+}
+add_filter( 'woocommerce_order_again_cart_item_data', 'd_order_again_meta_data', 10, 3 );
+
+// again order
+function d_order_again_meta_data_select( $cart_item1, $order_item1, $order ){
+
+    if( isset( $order_item1['extra_product_field_select'] ) ){
+        $cart_item_meta1['extra_product_field_select'] = $order_item1['extra_product_field_select'];
+    }
+
+    return $cart_item1;
+
+}
+add_filter( 'woocommerce_order_again_cart_item_data', 'd_order_again_meta_data_select', 10, 3 );
+
+
+
+
+add_filter( 'woocommerce_product_get_price', 'custom_discount_price', 10, 2 );
+add_filter( 'woocommerce_product_variation_get_price', 'custom_discount_price', 10, 2 );
+function custom_discount_price( $price, $product ) {
+    // For logged in users
+    if ( is_user_logged_in() ) {
+		if( $product->is_type('simple') || $product->is_type('external') || $product->is_type('grouped') ) {
+        $discount_rate = 0.95; // 10% of discount
+        
+        // Product is on sale
+        if ( $product->is_on_sale() ) { 
+            // return the smallest price value between on sale price and custom discounted price
+            return min( $price, ( $product->get_regular_price() * $discount_rate ) );
+        }
+        // Product is not on sale
+        else {
+            // Returns the custom discounted price
+            return $price * $discount_rate;
+        }
+    }
+}
+    return $price;
+}
+
+add_action( 'woocommerce_single_product_summary', 'ts_you_save', 11 );
+function ts_you_save() {
+	global $product;
+	
+    if ( is_user_logged_in() ) {
+	 if( $product->is_type('simple') || $product->is_type('external') || $product->is_type('grouped') ) {
+		?>
+		<p style="font-size:24px;color:red;"><b>You Save: 5%</b></p>                
+		<?php   
+	 }
+	}
+}
